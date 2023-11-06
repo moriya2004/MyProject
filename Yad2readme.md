@@ -26,7 +26,7 @@ Delete: http://yad2.co.il/mediators
 שליפת רשימת לרכבים:  
 Get: http://yad2.co.il/vehicles  
 שליפת רכב לפי מזהה:  
-        Get: http://yad2.co.il/vehicles/1
+Get: http://yad2.co.il/vehicles/1  
 הוספת רכב:  
 Post: http://yad2.co.il/vehicles  
 עדכון רכב:  
