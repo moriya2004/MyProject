@@ -9,21 +9,24 @@ namespace Yad2.Controllers
     [ApiController]
     public class MediatorsController : ControllerBase
     {
-        private static List <Mediator> _mediators=new List<Mediator> ();
-        static int cnt = 1;
-
+        private readonly DataContext _context;
+        static int cnt = 0;
+        public MediatorsController(DataContext context)
+        {
+            _context = context;
+        }
         // GET: api/<MediatorsController>
         [HttpGet]
         public ActionResult<IEnumerable<Mediator>> Get()
         {
-            return _mediators;
+            return _context.MediatorsList;
         }
 
         // GET api/<MediatorsController>/5
         [HttpGet("{id}")]
         public ActionResult<Mediator> Get(int id)
         {
-            var mediator = _mediators.Find(x => x.Id == id);
+            var mediator = _context.MediatorsList.Find(x => x.Id == id);
             if (mediator == null)
             {
                 return NotFound();
@@ -35,15 +38,16 @@ namespace Yad2.Controllers
         [HttpPost]
         public void Post([FromBody] Mediator mediator)
         {
-            _mediators.Add(new Mediator { Id=cnt,Name=mediator.Name,Seniority=mediator.Seniority,Commission=mediator.Commission,NumDeals=mediator.NumDeals});
             cnt++;
+            _context.MediatorsList.Add(new Mediator { Id=cnt,Name=mediator.Name,Seniority=mediator.Seniority,Commission=mediator.Commission,NumDeals=mediator.NumDeals});
+            
         }
 
         // PUT api/<MediatorsController>/5
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] Mediator mediator)
         {
-            var med = _mediators.Find(x => x.Id == id);
+            var med = _context.MediatorsList.Find(x => x.Id == id);
             if (med != null)
             {
                 med.Name = mediator.Name;
@@ -59,11 +63,11 @@ namespace Yad2.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var med = _mediators.Find(x => x.Id == id);
+            var med = _context.MediatorsList.Find(x => x.Id == id);
             if (med != null)
             {
-                _mediators.Remove(med);
-                cnt--;
+                _context.MediatorsList.Remove(med);
+                
             }
 
             return Ok();

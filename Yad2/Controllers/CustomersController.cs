@@ -10,20 +10,24 @@ namespace Yad2.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        private static List <Customer> _customers=new List<Customer> ();
-        static int cnt = 1;
+        private readonly DataContext _context;
+        static int cnt = 0;
+        public CustomersController(DataContext context)
+        {
+            _context = context;
+        }
         // GET: api/<CustomersController>
         [HttpGet]
         public ActionResult<IEnumerable<Customer>> Get()
         {
-            return _customers;
+            return _context.CustomersList;
         }
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]
         public ActionResult<Customer> Get(int id)
         {
-            var customer = _customers.Find(x => x.Id == id);
+            var customer = _context.CustomersList.Find(x => x.Id == id);
             if(customer == null)
             {
                 return NotFound();
@@ -35,15 +39,16 @@ namespace Yad2.Controllers
         [HttpPost]
         public void Post([FromBody] Customer customer)
         {
-            _customers.Add(new Customer { Id=cnt,Name=customer.Name,Phone=customer.Phone,Email=customer.Email});
             cnt++;
+            _context.CustomersList.Add(new Customer { Id=cnt,Name=customer.Name,Phone=customer.Phone,Email=customer.Email});
+            
         }
 
         // PUT api/<CustomersController>/5
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] Customer customer)
         {
-            var cus = _customers.Find(c => c.Id == id);
+            var cus = _context.CustomersList.Find(c => c.Id == id);
             if (cus != null)
             {
                 cus.Name = customer.Name;
@@ -58,11 +63,11 @@ namespace Yad2.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var cus = _customers.Find(c => c.Id == id);
+            var cus = _context.CustomersList.Find(c => c.Id == id);
             if (cus != null)
             {
-                _customers.Remove(cus);
-                cnt--;
+                _context.CustomersList.Remove(cus);
+                
             }
             
             return Ok();

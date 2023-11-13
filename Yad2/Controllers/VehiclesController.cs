@@ -9,20 +9,25 @@ namespace Yad2.Controllers
     [ApiController]
     public class VehiclesController : ControllerBase
     {
-        private static List <Vehicle> _vehicles=new List<Vehicle> ();
-        static int cnt = 1;
+        
+        private readonly DataContext _context;
+        static int cnt = 0;
+        public VehiclesController(DataContext context)
+        {
+            _context = context;
+        }
         // GET: api/<VehiclesController>
         [HttpGet]
         public ActionResult<IEnumerable<Vehicle>> Get()
         {
-            return _vehicles;
+            return _context.VehiclesList;
         }
 
         // GET api/<VehiclesController>/5
         [HttpGet("{id}")]
         public ActionResult<Vehicle> Get(int id)
         {
-            var vehicle = _vehicles.Find(x => x.Id == id);
+            var vehicle = _context.VehiclesList.Find(x => x.Id == id);
             if (vehicle == null)
             {
                 return NotFound();
@@ -34,15 +39,16 @@ namespace Yad2.Controllers
         [HttpPost]
         public void Post([FromBody] Vehicle vehicle)
         {
-            _vehicles.Add(new Vehicle { Id=cnt,Type=vehicle.Type,Company=vehicle.Company,YearOfProduction=vehicle.YearOfProduction,Accident=vehicle.Accident,Km=vehicle.Km,Price=vehicle.Price});
             cnt++;
+            _context.VehiclesList.Add(new Vehicle { Id=cnt,Type=vehicle.Type,Company=vehicle.Company,YearOfProduction=vehicle.YearOfProduction,Accident=vehicle.Accident,Km=vehicle.Km,Price=vehicle.Price});
+            
         }
 
         // PUT api/<VehiclesController>/5
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] Vehicle vehicle)
         {
-            var vec = _vehicles.Find(x => x.Id == id);
+            var vec = _context.VehiclesList.Find(x => x.Id == id);
             if(vec != null)
             {
                 vec.Type = vehicle.Type;
@@ -59,11 +65,10 @@ namespace Yad2.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var vec = _vehicles.Find(x => x.Id == id);
+            var vec = _context.VehiclesList.Find(x => x.Id == id);
             if (vec != null)
             {
-                _vehicles.Remove(vec);
-                cnt--;
+                _context.VehiclesList.Remove(vec);
             }
             return Ok();
         }
