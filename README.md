@@ -13,11 +13,11 @@
 שליפת רשימת למתווכים:  
 Get: http://yad2.co.il/mediators   
 שליפת מתווך לפי מזהה:  
-Get: http://yad2.co.il/mediators /1  
+Get: http://yad2.co.il/mediators/1  
 הוספת מתווך:  
 Post: http://yad2.co.il/mediators   
 עדכון מתווך:  
-Put: http://yad2.co.il/mediators /1  
+Put: http://yad2.co.il/mediators/1  
 מחיקת מתווך:  
 Delete: http://yad2.co.il/mediators   
 
