@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 
 using Yad2;
 using Yad2.Core.Repository;
 using Yad2.Data;
 using Yad2.Service;
+=======
+using Yad2;
+>>>>>>> 33e520dbbcce61cb230cf00b90ff116e5de8e5fc
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +16,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<DataContext>();
 
 builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
