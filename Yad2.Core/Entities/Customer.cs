@@ -1,4 +1,4 @@
-﻿namespace Yad2.Entities
+﻿namespace Yad2.Core.Entities
 {
     public class Customer
     {
